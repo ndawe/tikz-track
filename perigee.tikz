@@ -1,0 +1,72 @@
+%synatax: \tdplotsetdisplay{\theta_d}{\phi_d}
+\tdplotsetmaincoords{83}{118}
+
+%coordinate transformation provided by 3dplot
+\begin{tikzpicture}[scale=5,tdplot_main_coords]
+
+%set up some coordinates 
+%-----------------------
+\coordinate (O) at (0,0,0);
+
+%determine a coordinate (P) using (r,\theta,\phi) coordinates.  This command
+%also determines (Pxy), (Pxz), and (Pyz): the xy-, xz-, and yz-projections
+%of the point (P).
+%syntax: \tdplotsetcoord{Coordinate name without parentheses}{r}{\theta}{\phi}
+\tdplotsetcoord{P}{0.42}{45}{0}
+
+%draw figure contents
+%--------------------
+
+%draw the main coordinate system axes
+\draw[thick,->] (0,0,0) -- (-0.8,0,0) node[anchor=west,font=\small]{$+x$};
+\draw[thick,->] (0,0,0) -- (1.1,0,0) node[anchor=east]{$-x$};
+\draw[thick,->] (0,0,0) -- (0,0.8,0) node[anchor=west]{$+z$};
+\draw[thick,->] (0,0,0) -- (0,0,0.6) node[anchor=south]{$+y$};
+\draw[thick,->] (0,0,0) -- (0,0,-0.5) node[anchor=north]{$-y$};
+
+%draw a vector from origin to point (P) 
+\draw[very thick,-stealth,color=red] (O) -- (P) node[midway, anchor=north east]{$d_{0}$};
+\draw[very thick,-stealth,color=purple] (P) -- ($ (P) + (-.25,0,.25) $) node[midway, anchor=south east]{$\vec{p}_{\mathrm{T}}$};
+\draw[dotted,color=purple] (P) -- ($ (P) + (-.4,0,0) $);
+\draw[very thick,-stealth,color=purple] (P) -- ($ (P) + (-.25,0,.25) $) node[midway, anchor=south east]{$\vec{p}_{\mathrm{T}}$};
+
+\tdplotdefinepoints(0.2, 0, 0.3)(0, 0, 0.3)(0, 0, 0.6);
+\tdplotdrawpolytopearc[color=red,->]{.25}{anchor=west,color=red}{$\phi_0$}
+
+\tdplotdefinepoints(0,0,0)(-0.3,0,0)(0.25,0,0.3);
+\tdplotdrawpolytopearc[color=red,->]{.2}{anchor=west,color=red}{$\phi$}
+
+\draw[dotted, color=red] (P) -- ({cos(45)*0.7 - 0.2},{0.4},{sin(45)*0.7 - 0.2});
+\draw[dotted, color=red] ({cos(45)*0.7 - 0.2},{0.4},{sin(45)*0.7 - 0.2}) -- ({0},{0.4},{0});
+\draw[very thick,-stealth,color=red] (O) -- (0,0.4,0) node[midway, anchor=north]{$z_{0}$};
+
+%draw the angle \phi, and label it
+%syntax: \tdplotdrawarc[coordinate frame, draw options]{center point}{r}{angle}{label options}{label}
+%\tdplotdrawarc{(O)}{0.2}{0}{\phivec}{anchor=north}{$\phi$}
+
+\draw[ultra thick,->,color=blue] (0.5,0.2,-0.2)
+\foreach \z in {0,0.01,...,0.4}
+{ -- ({cos(\z*220)*0.7 - 0.2},{\z+0.2},{sin(\z*220)*0.7 - 0.2})
+};
+\draw[dashed,->] (0.5,0,-0.2)
+\foreach \z in {0,0.01,...,0.4}
+{ -- ({cos(\z*220)*0.70 - 0.2},{0},{sin(\z*220)*0.7 - 0.2})
+}; 
+
+\draw[dashed,->] (0,0.2,-0.2) -- (0,0.6,{sin(0.4*220)*0.7 - 0.2});
+\draw[dotted] (0.5,0.2,-0.2) -- (0,0.2,-0.2);
+
+\draw[dotted] (0.5,0,-0.2) -- (0.5,0.2,-0.2);
+\draw[dotted] ({cos(0.4*220)*0.7 - 0.2},{0},{sin(0.4*220)*0.7 - 0.2}) -- ({cos(0.4*220)*0.7 - 0.2},{0.6},{sin(0.4*220)*0.7 - 0.2});
+
+\fill[color=red] (0,0,0) circle [radius=.5pt];
+\fill[color=red] ({cos(45)*0.7 - 0.2},{0.4},{sin(45)*0.7 - 0.2}) circle [radius=.5pt];
+
+\draw[color=red] (0,0,0) node[anchor=north east]{$V$};
+\draw[very thick,-stealth,color=purple] ($ (P) + (0,0.4,0) $) -- ($ (P) + (-.25,0.55,.25) $) node[midway, anchor=south east]{$\vec{p}$};
+\draw[color=red] ({cos(45)*0.7 - 0.2},{0.4},{sin(45)*0.7 - 0.2}) node[anchor=south east]{$P$};
+
+\tdplotdefinepoints(0,0.35,0)(0,1,0)(0,1,1.5);
+\tdplotdrawpolytopearc[color=red,->]{.3}{anchor=south west,color=red}{$\theta$}
+
+\end{tikzpicture}
